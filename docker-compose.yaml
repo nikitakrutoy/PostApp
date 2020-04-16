@@ -1,11 +1,11 @@
-version: "3.7"
+version: "2"
 services:
     postapp:
         image: "postapp:latest"
         ports:
             - "8443:8443"
         restart: always
-        command: ['gunicorn', '-w', '1', 'app:app', '--certfile=ssl/cert.pem', '--keyfile=ssl/key.pem', '-b', '0.0.0.0:8443']
+        command: ['gunicorn', '-w', '1', 'app:app', '--certfile=ssl/fullchain.pem', '--keyfile=ssl/key.pem', '-b', '0.0.0.0:8443']
         depends_on:
             - redis
             - mongo
