@@ -2,8 +2,6 @@
 Telegram bot for posting to Facebook, Odnoklassniki and Telegram Channels. Bot can send posts with one image or text or both to all or specified list of authorized pages.
 Working copy of of bot should be [here](https://t.me/postapp_bot) but i do not guarantee that because i have not finished with docker images of the bot and it may fall and do not restart.
 
-If you are interested please checkout [version](https://github.com/nikitakrutoy/postapp-latest) of the app with changes that i made after deadline. This version of the app can be started with *docker-compose up* сommand.
-
 # Backstory (aka Проектирование сервиса)
 I decided to make telegram bot beacause i was limitied in time and havent touched Vue.js for a long time. 
 Therefore i decided it will be much more productive if i concentrate mainly on backend part of the app. This was a mistake. 
@@ -66,37 +64,19 @@ After that you need to change credentials for fb and ok.ru apps in bot/config.js
 
 Obtain a telegram token via @BotFather and put in bot/config.json
 
-Start redis:
-```
-docker run -p 6379:6379 redis
-```
-
-Start mongodb:
-
-```
-docker run -p 27017:27017 mongo
-```
-Install dependencies:
-```
-pip install -r requeirements.txt
-```
-
 Set webhook to your bot:
 ```
 python webhook.py
 ```
 
-Start celery
+Build app image
 ```
-celery -A bot.tasks.app worker
-```
-
-Start app
-```
-python start.py
+docker build . -t postapp
 ```
 
-Probably I will finish with docker-compose.yaml soon and it should starts with docker-compose up
-
+Start services
+```
+docker-compose up
+```
 
 
