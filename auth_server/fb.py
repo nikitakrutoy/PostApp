@@ -3,7 +3,7 @@ import pymongo
 from flask import request, Response
 from .utils import Config
 
-db = pymongo.MongoClient().users
+db = pymongo.MongoClient(Config.options["mongo"]).users
 
 def auth():
     if "code" in request.args:

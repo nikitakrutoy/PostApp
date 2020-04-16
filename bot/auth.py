@@ -4,7 +4,7 @@ import telegram
 import pymongo
 from .utils import Config
 
-db = pymongo.MongoClient().users
+db = pymongo.MongoClient(Config.options["mongo"]).users
 
 
 def auth(update, context):

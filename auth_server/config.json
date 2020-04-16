@@ -9,5 +9,6 @@
         "client_key": "key",
         "client_secret": "secret",
         "redirect_uri": "https://yourdomain:8443/auth/ok"
-    }
+    },
+    "mongo": "mongodb://mongo:27017/"
 }

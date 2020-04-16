@@ -1,18 +1,20 @@
 import pymongo
 import telegram
 import celery
-from ..utils import Query
+from ..utils import Query, Config
 
 class TelegramPost(celery.Task):
     def setup(self, tg_id, token):
         self.tg_id = tg_id
         self.bot = telegram.Bot(token=token)
-        db = pymongo.MongoClient().users
+        db = pymongo.MongoClient(Config.options["mongo"]).users
         data = db.data.find_one(dict(tgId=str(tg_id)))
-        if data is None:
+        data = data if data is not None else {}
+        data = data.get("channels", [])
+        if not data:
             data = {}
             self.bot.send_message(chat_id=int(tg_id), text="You do not have authorized tg channels")
-        self.channels = data.get("channels", [])
+        self.channels = data
         
 
     def post_channel(self, message, photo, channel):

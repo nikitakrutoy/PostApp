@@ -7,7 +7,7 @@ from .tasks.app import FacebookPost, TelegramPost, OdnoklassnikiPost, reply_mess
 from .utils import Config as botConfig, \
     parse_message, extract_photo, ParseMessageException
 
-db = pymongo.MongoClient().users
+db = pymongo.MongoClient(botConfig.options["mongo"]).users
 
 
 def post(update, context):

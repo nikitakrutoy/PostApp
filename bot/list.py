@@ -1,6 +1,7 @@
 import pymongo
 import yaml
-db = pymongo.MongoClient().users
+from .utils import Config
+db = pymongo.MongoClient(Config.options["mongo"]).users
 
 def list(update, context):
     data = db.data.find_one({"tgId": str(update.effective_user.id)})

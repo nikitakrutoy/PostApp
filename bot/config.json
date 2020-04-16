@@ -14,5 +14,6 @@
     "celery": {
 	"broker": "redis://localhost:6379/0",
         "backend": "mongodb://localhost:27017/from_celery"
-    }
+    },
+    "mongo": "mongodb://mongo:27017/"
 }

@@ -22,13 +22,15 @@ class OdnoklassnikiPost(celery.Task):
         self.tg_id = tg_id
         self.query = query
         self.bot = telegram.Bot(token=token)
-        db = pymongo.MongoClient().users
+        db = pymongo.MongoClient(Config.options["mongo"]).users
         data = db.data.find_one(dict(tgId=str(tg_id)))
-        if data is None:
+        data = data if data is not None else {}
+        data = data.get("ok", {})
+        if not data:
             data = {}
             self.bot.send_message(chat_id=int(tg_id), text="You do not have authorized ok accounts")
 
-        self.data = DataStorage(data.get("ok", {}), exception_class=OdnoklassnikiPostException)
+        self.data = DataStorage(data, exception_class=OdnoklassnikiPostException)
 
         return self
 
@@ -48,7 +50,7 @@ class OdnoklassnikiPost(celery.Task):
         action = {"file": bytes.getvalue()}
         resp = requests.post(upload_url, files=action)
         data = resp.json()
-        return resp.json()['photos'][photo_id]['token']
+        return data['photos'][photo_id]['token']
 
     def post_page(self, uid, pid, message, photo=None):
         CLIENT_KEY = Config.options["odnoklassniki"]["client_key"]
