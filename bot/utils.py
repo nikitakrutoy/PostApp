@@ -64,6 +64,13 @@ class Query:
         return cls(*q)
     
 
+
+def info_webhook(token):
+    response = requests.get(
+        url=f"https://api.telegram.org/bot{token}/getWebhookInfo",
+    )
+    print(response.text)
+
 def set_webhook(token):
     response = requests.get(
         url=f"https://api.telegram.org/bot{token}/setWebhook",
