@@ -24,20 +24,21 @@ dispatcher.add_handler(CommandHandler("dice", dice))
 def start(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Hello, my little friend")
 
-dispatcher.add_handler(CommandHandler("start", start))
+
 
 def unknown(update, context):
     context.bot.send_message(chat_id=update.effective_chat.id, text="Sorry, I didn't understand that command.")
 
-
-dispatcher.add_handler(CommandHandler("auth", auth, pass_args=True))
-dispatcher.add_handler(CommandHandler("list", list, pass_args=True))
+dispatcher.add_handler(CommandHandler("start", start), group=0)
+dispatcher.add_handler(CommandHandler("auth", auth, pass_args=True), group=0)
+dispatcher.add_handler(CommandHandler("list", list, pass_args=True), group=0)
+dispatcher.add_handler(MessageHandler(Filters.command, unknown), group=0)
 dispatcher.add_handler(MessageHandler(
     (Filters.text | Filters.photo) & \
-    ~(Filters.update.channel_post | Filters.group | Filters.update.edited_message | Filters.update.edited_channel_post), 
+    ~(Filters.update.channel_post | Filters.group | Filters.update.edited_message | Filters.update.edited_channel_post| Filters.command), 
     post
-))
-dispatcher.add_handler(MessageHandler(Filters.command, unknown))
+), group=1)
+
 
 blueprint = Blueprint("bot", __name__)
 
